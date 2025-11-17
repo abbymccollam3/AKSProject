@@ -10,4 +10,4 @@ ENV DD_ENV=dev
 # Expose Flask’s port
 EXPOSE 8080
 
-CMD ["python", "app.py"]
+CMD ["python", "test.py"]
