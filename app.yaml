@@ -1,0 +1,50 @@
+ - apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: default-1763408242643
+  spec:
+    finalizers:
+      - kubernetes
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: akstest
+    namespace: default-1763408242643
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: akstest
+    template:
+      metadata:
+        labels:
+          app: akstest
+      spec:
+        nodeSelector:
+          kubernetes.io/os: linux
+        containers:
+          - name: akstest
+            image: abbymccollam33/akstest:latest
+            ports:
+              - containerPort: 8080
+            resources:
+              requests:
+                cpu: '1'
+                memory: 1G
+              limits:
+                cpu: '256'
+                memory: 11400G
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: akstest-service
+    namespace: default-1763408242643
+  spec:
+    type: LoadBalancer
+    ports:
+      - targetPort: 8080
+        name: port8080
+        port: 8080
+        protocol: TCP
+    selector:
+      app: akstest
